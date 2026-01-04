@@ -52,66 +52,96 @@
             position: relative;
             text-decoration: none;
             transition: color 0.3s;
+            white-space: nowrap;
         }
 
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            transform: scaleX(0);
-            height: 2px;
-            bottom: -4px;
-            left: 0;
-            background-color: #4f46e5;
-            /* indigo-600 */
-            transform-origin: bottom left;
-            transition: transform 0.3s ease-out;
-        }
+        /* Desktop hover effect */
+        @media (min-width: 768px) {
+            .nav-link::after {
+                content: '';
+                position: absolute;
+                width: 100%;
+                transform: scaleX(0);
+                height: 2px;
+                bottom: -4px;
+                left: 0;
+                background-color: #4f46e5;
+                transform-origin: bottom left;
+                transition: transform 0.3s ease-out;
+            }
 
-        .nav-link:hover::after {
-            transform: scaleX(1);
-            transform-origin: bottom left;
+            .nav-link:hover::after {
+                transform: scaleX(1);
+                transform-origin: bottom left;
+            }
         }
 
         .nav-link-active {
             color: #4f46e5;
-            /* indigo-600 */
             font-weight: 600;
         }
 
-        .nav-link-active::after {
-            transform: scaleX(1);
+        @media (min-width: 768px) {
+            .nav-link-active::after {
+                transform: scaleX(1);
+            }
+        }
+
+        /* Mobile Nav Pill Style */
+        @media (max-width: 767px) {
+            .nav-link {
+                padding: 0.5rem 1rem;
+                border-radius: 9999px;
+                background-color: #f3f4f6;
+                /* gray-100 */
+                font-size: 0.875rem;
+                color: #4b5563;
+                /* gray-600 */
+            }
+
+            .nav-link-active {
+                background-color: #e0e7ff;
+                /* indigo-100 */
+                color: #4f46e5;
+                /* indigo-600 */
+            }
         }
 
         /* Style for skill pills */
         span.skill-pill {
             padding: 4px 12px;
             font-size: 0.875rem;
-            /* 14px */
             font-weight: 500;
             border-radius: 9999px;
             display: inline-block;
         }
 
-        /* Custom scrollbar (optional, but nice touch) */
+        /* Hide scrollbar for mobile horizontal nav but keep functionality */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Custom scrollbar for main page */
         ::-webkit-scrollbar {
             width: 8px;
         }
 
         ::-webkit-scrollbar-track {
             background: #f1f5f9;
-            /* gray-100 */
         }
 
         ::-webkit-scrollbar-thumb {
             background: #c7d2fe;
-            /* indigo-200 */
             border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
             background: #a5b4fc;
-            /* indigo-300 */
         }
     </style>
 </head>
@@ -122,24 +152,24 @@
         <div class="flex flex-col md:flex-row md:space-x-10">
 
             <!-- ======================= -->
-            <!--   LEFT SIDEBAR (Sticky) -->
+            <!--    LEFT SIDEBAR (Sticky Desktop / Header Mobile) -->
             <!-- ======================= -->
-            <aside class="md:w-1/3 mb-8 md:mb-0 md:sticky md:top-8 self-start">
+            <aside class="w-full md:w-1/3 mb-6 md:mb-0 md:sticky md:top-8 self-start z-20">
                 <div class="bg-white p-6 rounded-2xl shadow-xl">
                     <div class="flex flex-col items-center">
-                        <!-- Profile Image Placeholder -->
+                        <!-- Profile Image -->
                         <img src="public/profile.jpg" alt="Md. Nahin Alam"
-                            class="rounded-full w-36 h-36 mb-4 border-4 border-indigo-100 shadow-md object-cover">
+                            class="rounded-full w-28 h-28 md:w-36 md:h-36 mb-4 border-4 border-indigo-100 shadow-md object-cover">
 
-                        <h1 class="text-3xl font-bold text-gray-900 text-center">Md.Nahin Alam</h1>
-                        <p class="text-lg text-indigo-600 font-medium mt-1">AI/ML Researcher</p>
+                        <h1 class="text-2xl md:text-3xl font-bold text-gray-900 text-center">Md. Nahin Alam</h1>
+                        <p class="text-base md:text-lg text-indigo-600 font-medium mt-1">AI/ML Researcher</p>
                         <p class="text-gray-600 text-sm mt-1 text-center">University of Colorado Boulder</p>
 
                         <!-- Social/Contact Links -->
-                        <div class="flex flex-wrap justify-center space-x-4 mt-6">
+                        <div class="flex flex-wrap justify-center space-x-5 mt-5">
                             <a href="mailto:nahin.alam@northsouth.edu" title="Email"
                                 class="text-gray-500 hover:text-indigo-600 transition-all duration-300 transform hover:scale-110">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round">
                                     <path
@@ -151,7 +181,7 @@
                             <a href="https://www.linkedin.com/in/nahinalam" target="_blank" rel="noopener noreferrer"
                                 title="LinkedIn"
                                 class="text-gray-500 hover:text-indigo-600 transition-all duration-300 transform hover:scale-110">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round">
                                     <path
@@ -161,11 +191,10 @@
                                     <circle cx="4" cy="4" r="2"></circle>
                                 </svg>
                             </a>
-                            <!-- GitHub Icon -->
                             <a href="https://github.com/alamnahin" target="_blank" rel="noopener noreferrer"
                                 title="GitHub"
                                 class="text-gray-500 hover:text-indigo-600 transition-all duration-300 transform hover:scale-110">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round">
                                     <path
@@ -173,20 +202,18 @@
                                     </path>
                                 </svg>
                             </a>
-                            <!-- Google Scholar Icon (Official Logo) -->
                             <a href="https://scholar.google.com/citations?user=05wpi8kAAAAJ&hl=en" target="_blank"
                                 rel="noopener noreferrer" title="Google Scholar"
                                 class="text-gray-500 hover:text-indigo-600 transition-all duration-300 transform hover:scale-110">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
                                     fill="currentColor">
                                     <path
                                         d="M5.242 13.769L0 9.5L12 0l12 9.5l-5.242 4.269C17.548 11.249 14.978 9 12 9s-5.548 2.249-6.758 4.769zM12 10c-1.381 0-2.5 1.119-2.5 2.5s1.119 2.5 2.5 2.5s2.5-1.119 2.5-2.5s-1.119-2.5-2.5-2.5zM12 15c-1.657 0-3 1.343-3 3s1.343 3 3 3s3-1.343 3-3s-1.343-3-3-3zm-6.758 4.769L12 24l6.758-4.231C17.548 22.751 14.978 25 12 25s-5.548-2.249-6.758-4.769z" />
                                 </svg>
                             </a>
-                            <!-- Placeholder for CV -->
                             <a href="public/resume.pdf" title="Download CV"
                                 class="text-gray-500 hover:text-indigo-600 transition-all duration-300 transform hover:scale-110">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round">
                                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -200,28 +227,33 @@
                     </div>
 
                     <!-- Navigation -->
-                    <nav class="w-full mt-8">
-                        <ul class="flex flex-col space-y-3">
-                            <li><a href="#about"
-                                    class="nav-link nav-link-active text-gray-700 hover:text-indigo-600 font-medium"
+                    <!-- Mobile: Sticky, horizontal scroll. Desktop: Vertical list -->
+                    <nav class="w-full mt-6 sticky top-0 md:static z-50 bg-white md:bg-transparent pb-2 md:pb-0">
+                        <ul
+                            class="flex flex-row md:flex-col overflow-x-auto hide-scrollbar space-x-3 md:space-x-0 md:space-y-3 py-2 md:py-0 px-1 md:px-0">
+                            <li><a href="#about" class="nav-link nav-link-active text-gray-700 font-medium"
                                     onclick="setActiveLink(this)">About</a></li>
-                            <li><a href="#skills" class="nav-link text-gray-700 hover:text-indigo-600 font-medium"
+                            <li><a href="#skills" class="nav-link text-gray-700 font-medium"
                                     onclick="setActiveLink(this)">Skills</a></li>
-                            <li><a href="#news" class="nav-link text-gray-700 hover:text-indigo-600 font-medium"
+                            <li><a href="#news" class="nav-link text-gray-700 font-medium"
                                     onclick="setActiveLink(this)">News</a></li>
-                            <li><a href="#publications" class="nav-link text-gray-700 hover:text-indigo-600 font-medium"
+                            <li><a href="#publications" class="nav-link text-gray-700 font-medium"
                                     onclick="setActiveLink(this)">Publications</a></li>
-                            <li><a href="#projects" class="nav-link text-gray-700 hover:text-indigo-600 font-medium"
+                            <li><a href="#projects" class="nav-link text-gray-700 font-medium"
                                     onclick="setActiveLink(this)">Projects</a></li>
-                            <li><a href="#live-apps" class="nav-link text-gray-700 hover:text-indigo-600 font-medium"
+                            <li><a href="#live-apps" class="nav-link text-gray-700 font-medium"
                                     onclick="setActiveLink(this)">Live Apps</a></li>
-                            <li><a href="#experience" class="nav-link text-gray-700 hover:text-indigo-600 font-medium"
+                            <li><a href="#experience" class="nav-link text-gray-700 font-medium"
                                     onclick="setActiveLink(this)">Experience</a></li>
-                            <li><a href="#teaching" class="nav-link text-gray-700 hover:text-indigo-600 font-medium"
+                            <li><a href="#teaching" class="nav-link text-gray-700 font-medium"
                                     onclick="setActiveLink(this)">Teaching</a></li>
-                            <li><a href="#education" class="nav-link text-gray-700 hover:text-indigo-600 font-medium"
+                            <li><a href="#education" class="nav-link text-gray-700 font-medium"
                                     onclick="setActiveLink(this)">Education</a></li>
                         </ul>
+                        <!-- Gradient fade for mobile scroll indication -->
+                        <div
+                            class="md:hidden absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent pointer-events-none">
+                        </div>
                     </nav>
                 </div>
             </aside>
