@@ -1,0 +1,2485 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Md. Nahin Alam — AI Engineer & Researcher</title>
+        <meta
+            name="description"
+            content="Md. Nahin Alam — AI Automation Engineer & Full-Stack Architect. Multimodal AI, RAG pipelines, Vision-Language Models, Medical Imaging."
+        />
+        <meta
+            property="og:title"
+            content="Md. Nahin Alam — AI Engineer & Researcher"
+        />
+        <meta
+            property="og:description"
+            content="AI Automation Engineer & Full-Stack Architect specialising in LLM ecosystems, RAG pipelines, and multimodal AI research."
+        />
+        <meta property="og:url" content="https://alamnahin.github.io/" />
+        <meta property="og:type" content="website" />
+        <link
+            rel="icon"
+            href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%230f172a'/><text x='50%' y='54%' dominant-baseline='central' text-anchor='middle' font-size='46' font-family='Georgia,serif' fill='%2338bdf8'>NA</text></svg>"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+            rel="stylesheet"
+        />
+
+        <style>
+            /* ── DESIGN TOKENS ─────────────────────────────── */
+            :root {
+                --ink: #0f172a;
+                --ink-2: #1e293b;
+                --ink-3: #334155;
+                --muted: #64748b;
+                --border: #e2e8f0;
+                --surface: #f8fafc;
+                --white: #ffffff;
+
+                /* Signature accent: sky-blue → the "sky" of radiology lightboxes */
+                --accent: #0ea5e9;
+                --accent-d: #0284c7;
+                --accent-l: #e0f2fe;
+                --accent-xl: #f0f9ff;
+
+                --green: #10b981;
+                --green-l: #d1fae5;
+                --amber: #f59e0b;
+                --amber-l: #fef3c7;
+                --purple: #8b5cf6;
+                --purple-l: #ede9fe;
+
+                --radius: 10px;
+                --radius-lg: 16px;
+                --sidebar: 300px;
+                --gap: 2rem;
+                --section-gap: 4rem;
+
+                --font-display: "DM Serif Display", Georgia, serif;
+                --font-body: "Inter", system-ui, sans-serif;
+                --font-mono: "JetBrains Mono", "Courier New", monospace;
+            }
+
+            /* ── RESET ──────────────────────────────────────── */
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            html {
+                scroll-behavior: smooth;
+                font-size: 16px;
+            }
+            body {
+                font-family: var(--font-body);
+                background: var(--surface);
+                color: var(--ink-3);
+                line-height: 1.65;
+                min-height: 100vh;
+            }
+            a {
+                color: inherit;
+                text-decoration: none;
+            }
+            img {
+                display: block;
+                max-width: 100%;
+            }
+            ul {
+                list-style: none;
+            }
+
+            /* ── SCROLLBAR ─────────────────────────────────── */
+            ::-webkit-scrollbar {
+                width: 6px;
+            }
+            ::-webkit-scrollbar-track {
+                background: var(--surface);
+            }
+            ::-webkit-scrollbar-thumb {
+                background: var(--border);
+                border-radius: 3px;
+            }
+
+            /* ── LAYOUT ────────────────────────────────────── */
+            .page {
+                display: flex;
+                min-height: 100vh;
+                max-width: 1280px;
+                margin: 0 auto;
+            }
+
+            /* Sidebar */
+            .sidebar {
+                width: var(--sidebar);
+                flex-shrink: 0;
+                background: var(--white);
+                border-right: 1px solid var(--border);
+                padding: 2.5rem 1.75rem;
+                position: sticky;
+                top: 0;
+                height: 100vh;
+                overflow-y: auto;
+                display: flex;
+                flex-direction: column;
+                gap: 1.75rem;
+                scrollbar-width: none;
+            }
+            .sidebar::-webkit-scrollbar {
+                display: none;
+            }
+
+            /* Main content */
+            .main {
+                flex: 1;
+                padding: 3rem 3.5rem;
+                min-width: 0;
+            }
+
+            /* ── SIDEBAR COMPONENTS ────────────────────────── */
+            .profile-avatar {
+                width: 88px;
+                height: 88px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 3px solid var(--accent-l);
+                margin-bottom: 0.75rem;
+            }
+
+            .profile-name {
+                font-family: var(--font-display);
+                font-size: 1.2rem;
+                color: var(--ink);
+                line-height: 1.25;
+                margin-bottom: 0.25rem;
+            }
+
+            .profile-role {
+                font-size: 0.78rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.07em;
+                color: var(--accent);
+                margin-bottom: 0.2rem;
+            }
+
+            .profile-affil {
+                font-size: 0.8rem;
+                color: var(--muted);
+            }
+
+            /* Social links */
+            .socials {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.6rem;
+                margin-top: 0.5rem;
+            }
+            .social-link {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.4rem;
+                font-size: 0.75rem;
+                font-weight: 500;
+                color: var(--muted);
+                padding: 0.3rem 0.65rem;
+                border: 1px solid var(--border);
+                border-radius: 99px;
+                transition:
+                    color 0.2s,
+                    border-color 0.2s,
+                    background 0.2s;
+            }
+            .social-link:hover {
+                color: var(--accent);
+                border-color: var(--accent);
+                background: var(--accent-xl);
+            }
+            .social-link svg {
+                width: 13px;
+                height: 13px;
+                flex-shrink: 0;
+            }
+
+            /* Nav */
+            .nav-label {
+                font-size: 0.68rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                color: var(--muted);
+                margin-bottom: 0.5rem;
+            }
+            .nav-list {
+                display: flex;
+                flex-direction: column;
+                gap: 0.1rem;
+            }
+            .nav-link {
+                display: block;
+                font-size: 0.85rem;
+                font-weight: 500;
+                color: var(--ink-3);
+                padding: 0.45rem 0.7rem;
+                border-radius: var(--radius);
+                transition:
+                    background 0.15s,
+                    color 0.15s;
+                cursor: pointer;
+                border: none;
+                background: none;
+                width: 100%;
+                text-align: left;
+            }
+            .nav-link:hover {
+                background: var(--surface);
+                color: var(--ink);
+            }
+            .nav-link.active {
+                background: var(--accent-xl);
+                color: var(--accent-d);
+                font-weight: 600;
+            }
+
+            /* Sidebar stat pills */
+            .stat-row {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .stat-item {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                font-size: 0.8rem;
+            }
+            .stat-item span:first-child {
+                color: var(--muted);
+            }
+            .stat-badge {
+                font-family: var(--font-mono);
+                font-size: 0.72rem;
+                font-weight: 500;
+                padding: 0.15rem 0.5rem;
+                border-radius: 99px;
+                background: var(--accent-l);
+                color: var(--accent-d);
+            }
+
+            /* ── SECTION HEADERS ───────────────────────────── */
+            .section {
+                margin-bottom: var(--section-gap);
+                scroll-margin-top: 2rem;
+            }
+
+            .section-header {
+                display: flex;
+                align-items: baseline;
+                gap: 1rem;
+                margin-bottom: 1.75rem;
+                padding-bottom: 0.75rem;
+                border-bottom: 2px solid var(--border);
+                position: relative;
+            }
+            .section-header::before {
+                content: "";
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                width: 3rem;
+                height: 2px;
+                background: var(--accent);
+            }
+            .section-title {
+                font-family: var(--font-display);
+                font-size: 1.75rem;
+                color: var(--ink);
+                font-weight: 400;
+            }
+            .section-count {
+                font-family: var(--font-mono);
+                font-size: 0.75rem;
+                color: var(--muted);
+                font-weight: 500;
+            }
+
+            /* ── ABOUT ─────────────────────────────────────── */
+            .about-body p {
+                font-size: 1rem;
+                line-height: 1.75;
+                color: var(--ink-3);
+                margin-bottom: 1rem;
+            }
+            .about-body p:last-child {
+                margin-bottom: 0;
+            }
+            .about-body strong {
+                color: var(--ink);
+                font-weight: 600;
+            }
+
+            .impact-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1rem;
+                margin-top: 1.5rem;
+            }
+            .impact-card {
+                background: var(--accent-xl);
+                border: 1px solid var(--accent-l);
+                border-radius: var(--radius-lg);
+                padding: 1.1rem 1rem;
+                text-align: center;
+            }
+            .impact-num {
+                font-family: var(--font-display);
+                font-size: 1.9rem;
+                color: var(--accent-d);
+                line-height: 1;
+                margin-bottom: 0.35rem;
+            }
+            .impact-label {
+                font-size: 0.72rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                color: var(--muted);
+            }
+
+            /* ── SKILLS ────────────────────────────────────── */
+            .skills-grid {
+                display: flex;
+                flex-direction: column;
+                gap: 1.25rem;
+            }
+            .skill-group h3 {
+                font-size: 0.78rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                color: var(--ink);
+                margin-bottom: 0.6rem;
+            }
+            .pill-row {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.4rem;
+            }
+            .pill {
+                font-size: 0.8rem;
+                font-weight: 500;
+                padding: 0.3rem 0.75rem;
+                border-radius: 99px;
+                border: 1px solid;
+            }
+            .pill-primary {
+                background: var(--accent-l);
+                border-color: #bae6fd;
+                color: var(--accent-d);
+            }
+            .pill-secondary {
+                background: var(--surface);
+                border-color: var(--border);
+                color: var(--ink-3);
+            }
+
+            /* ── NEWS ──────────────────────────────────────── */
+            .news-list {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .news-item {
+                display: flex;
+                gap: 1rem;
+                padding: 1rem 1.1rem;
+                border-radius: var(--radius-lg);
+                border: 1px solid var(--border);
+                background: var(--white);
+                transition:
+                    border-color 0.2s,
+                    box-shadow 0.2s;
+            }
+            .news-item:hover {
+                border-color: var(--accent);
+                box-shadow: 0 2px 12px rgba(14, 165, 233, 0.08);
+            }
+            .news-dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: var(--accent);
+                flex-shrink: 0;
+                margin-top: 0.45rem;
+            }
+            .news-dot.accepted {
+                background: var(--green);
+            }
+            .news-dot.submitted {
+                background: var(--amber);
+            }
+            .news-dot.review {
+                background: var(--purple);
+            }
+            .news-item p {
+                font-size: 0.88rem;
+                line-height: 1.55;
+                color: var(--ink-3);
+            }
+            .news-item p strong {
+                color: var(--ink);
+            }
+            .news-tag {
+                display: inline-block;
+                font-size: 0.7rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                padding: 0.1rem 0.5rem;
+                border-radius: 99px;
+                margin-left: 0.4rem;
+                vertical-align: middle;
+            }
+            .tag-accepted {
+                background: var(--green-l);
+                color: #059669;
+            }
+            .tag-submitted {
+                background: var(--amber-l);
+                color: #b45309;
+            }
+            .tag-review {
+                background: var(--purple-l);
+                color: #7c3aed;
+            }
+
+            /* ── PUBLICATIONS ──────────────────────────────── */
+            .pub-section-label {
+                font-size: 0.72rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                color: var(--muted);
+                margin-bottom: 1rem;
+                margin-top: 2rem;
+                display: flex;
+                align-items: center;
+                gap: 0.6rem;
+            }
+            .pub-section-label::after {
+                content: "";
+                flex: 1;
+                height: 1px;
+                background: var(--border);
+            }
+            .pub-section-label:first-child {
+                margin-top: 0;
+            }
+
+            .pub-list {
+                display: flex;
+                flex-direction: column;
+                gap: 1.25rem;
+            }
+            .pub-card {
+                display: flex;
+                gap: 1.25rem;
+                padding: 1.1rem 1.25rem;
+                background: var(--white);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-lg);
+                transition:
+                    border-color 0.2s,
+                    box-shadow 0.2s,
+                    transform 0.2s;
+            }
+            .pub-card:hover {
+                border-color: var(--accent);
+                box-shadow: 0 4px 16px rgba(14, 165, 233, 0.1);
+                transform: translateY(-1px);
+            }
+            .pub-thumb {
+                width: 120px;
+                min-width: 120px;
+                height: 80px;
+                border-radius: var(--radius);
+                background: var(--accent-xl);
+                border: 1px solid var(--accent-l);
+                object-fit: cover;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: var(--font-mono);
+                font-size: 0.65rem;
+                color: var(--accent-d);
+                text-align: center;
+                padding: 0.4rem;
+                flex-shrink: 0;
+            }
+            .pub-body {
+                flex: 1;
+                min-width: 0;
+            }
+            .pub-title {
+                font-size: 0.93rem;
+                font-weight: 600;
+                color: var(--ink);
+                line-height: 1.4;
+                margin-bottom: 0.35rem;
+            }
+            .pub-authors {
+                font-size: 0.78rem;
+                color: var(--muted);
+                margin-bottom: 0.25rem;
+            }
+            .pub-authors strong {
+                color: var(--ink-3);
+            }
+            .pub-venue {
+                font-size: 0.78rem;
+                font-style: italic;
+                color: var(--muted);
+                margin-bottom: 0.5rem;
+            }
+            .pub-links {
+                display: flex;
+                gap: 0.5rem;
+                flex-wrap: wrap;
+            }
+            .pub-link {
+                font-size: 0.73rem;
+                font-weight: 600;
+                padding: 0.25rem 0.7rem;
+                border-radius: 99px;
+                border: 1px solid;
+                transition:
+                    background 0.15s,
+                    color 0.15s;
+                cursor: pointer;
+            }
+            .pub-link-primary {
+                background: var(--accent);
+                border-color: var(--accent);
+                color: #fff;
+            }
+            .pub-link-primary:hover {
+                background: var(--accent-d);
+                border-color: var(--accent-d);
+            }
+            .pub-link-secondary {
+                background: var(--surface);
+                border-color: var(--border);
+                color: var(--ink-3);
+            }
+            .pub-link-secondary:hover {
+                background: var(--border);
+            }
+
+            /* ── LIVE APPS ─────────────────────────────────── */
+            .apps-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1.25rem;
+            }
+            .app-card {
+                background: var(--white);
+                border: 1.5px solid var(--border);
+                border-radius: var(--radius-lg);
+                padding: 1.25rem 1.25rem 1rem;
+                transition:
+                    border-color 0.2s,
+                    box-shadow 0.2s,
+                    transform 0.2s;
+                display: flex;
+                flex-direction: column;
+                gap: 0.6rem;
+            }
+            .app-card:hover {
+                box-shadow: 0 6px 24px rgba(0, 0, 0, 0.07);
+                transform: translateY(-2px);
+            }
+            .app-card.accent-sky:hover {
+                border-color: var(--accent);
+            }
+            .app-card.accent-green:hover {
+                border-color: var(--green);
+            }
+            .app-card.accent-purple:hover {
+                border-color: var(--purple);
+            }
+
+            .app-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+            }
+            .app-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: var(--radius);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            }
+            .app-icon.sky {
+                background: var(--accent-l);
+                color: var(--accent-d);
+            }
+            .app-icon.green {
+                background: var(--green-l);
+                color: #059669;
+            }
+            .app-icon.purple {
+                background: var(--purple-l);
+                color: #7c3aed;
+            }
+            .app-icon svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            .live-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.3rem;
+                font-size: 0.67rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.07em;
+                padding: 0.2rem 0.55rem;
+                border-radius: 99px;
+            }
+            .live-badge.live {
+                background: var(--green-l);
+                color: #059669;
+            }
+            .live-badge.ai {
+                background: var(--purple-l);
+                color: #7c3aed;
+            }
+            .live-badge .dot {
+                width: 5px;
+                height: 5px;
+                border-radius: 50%;
+                background: currentColor;
+                animation: blink 1.6s ease-in-out infinite;
+            }
+            @keyframes blink {
+                0%,
+                100% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 0.3;
+                }
+            }
+
+            .app-name {
+                font-size: 1rem;
+                font-weight: 700;
+                color: var(--ink);
+                line-height: 1.25;
+            }
+            .app-desc {
+                font-size: 0.82rem;
+                color: var(--muted);
+                line-height: 1.55;
+                flex: 1;
+            }
+            .app-tags {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.3rem;
+            }
+            .app-tag {
+                font-family: var(--font-mono);
+                font-size: 0.67rem;
+                font-weight: 500;
+                padding: 0.15rem 0.5rem;
+                border-radius: 4px;
+                background: var(--surface);
+                border: 1px solid var(--border);
+                color: var(--ink-3);
+            }
+            .app-cta {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.4rem;
+                font-size: 0.78rem;
+                font-weight: 600;
+                padding: 0.45rem 1rem;
+                border-radius: var(--radius);
+                transition: all 0.15s;
+                align-self: flex-start;
+                margin-top: auto;
+            }
+            .app-cta.sky {
+                background: var(--accent);
+                color: #fff;
+            }
+            .app-cta.sky:hover {
+                background: var(--accent-d);
+            }
+            .app-cta.green {
+                background: var(--green);
+                color: #fff;
+            }
+            .app-cta.green:hover {
+                background: #059669;
+            }
+            .app-cta.purple {
+                background: var(--purple);
+                color: #fff;
+            }
+            .app-cta.purple:hover {
+                background: #7c3aed;
+            }
+            .app-cta svg {
+                width: 13px;
+                height: 13px;
+            }
+
+            /* ── TIMELINE (Experience / Teaching / Education) ── */
+            .timeline {
+                position: relative;
+                padding-left: 2rem;
+            }
+            .timeline::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0.35rem;
+                width: 2px;
+                height: 100%;
+                background: var(--border);
+            }
+            .tl-item {
+                position: relative;
+                padding-bottom: 2.25rem;
+            }
+            .tl-item:last-child {
+                padding-bottom: 0;
+            }
+            .tl-dot {
+                position: absolute;
+                left: -1.65rem;
+                top: 0.35rem;
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background: var(--accent);
+                border: 2.5px solid var(--white);
+                box-shadow: 0 0 0 2px var(--accent);
+            }
+            .tl-head {
+                display: flex;
+                align-items: baseline;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 0.25rem;
+                margin-bottom: 0.15rem;
+            }
+            .tl-role {
+                font-size: 1rem;
+                font-weight: 700;
+                color: var(--ink);
+            }
+            .tl-date {
+                font-family: var(--font-mono);
+                font-size: 0.73rem;
+                color: var(--muted);
+                white-space: nowrap;
+            }
+            .tl-org {
+                font-size: 0.85rem;
+                font-weight: 600;
+                color: var(--accent-d);
+                margin-bottom: 0.5rem;
+            }
+            .tl-bullets {
+                list-style: disc;
+                padding-left: 1.1rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.3rem;
+            }
+            .tl-bullets li {
+                font-size: 0.86rem;
+                color: var(--ink-3);
+                line-height: 1.55;
+                list-style: disc;
+            }
+            .tl-bullets li strong {
+                color: var(--ink);
+            }
+            .tl-text {
+                font-size: 0.86rem;
+                color: var(--ink-3);
+                line-height: 1.55;
+            }
+
+            /* ── EDUCATION ─────────────────────────────────── */
+            .edu-badges {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.4rem;
+                margin-top: 0.5rem;
+            }
+            .edu-badge {
+                font-size: 0.75rem;
+                font-weight: 600;
+                padding: 0.25rem 0.7rem;
+                border-radius: 99px;
+                background: var(--accent-xl);
+                border: 1px solid var(--accent-l);
+                color: var(--accent-d);
+            }
+
+            /* ── CERTIFICATIONS ────────────────────────────── */
+            .cert-list {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+                margin-top: 0.5rem;
+            }
+            .cert-item {
+                display: flex;
+                align-items: center;
+                gap: 0.6rem;
+                font-size: 0.86rem;
+                color: var(--ink-3);
+            }
+            .cert-item::before {
+                content: "";
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: var(--accent);
+                flex-shrink: 0;
+            }
+
+            /* ── FOOTER ────────────────────────────────────── */
+            footer {
+                text-align: center;
+                padding: 2rem;
+                font-size: 0.8rem;
+                color: var(--muted);
+                border-top: 1px solid var(--border);
+                margin-top: var(--section-gap);
+            }
+
+            /* ── RESPONSIVE ────────────────────────────────── */
+            @media (max-width: 900px) {
+                .page {
+                    flex-direction: column;
+                }
+                .sidebar {
+                    width: 100%;
+                    height: auto;
+                    position: relative;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    padding: 1.25rem 1.25rem 0.75rem;
+                    gap: 1rem;
+                    border-right: none;
+                    border-bottom: 1px solid var(--border);
+                }
+                .profile-section {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    flex: 1;
+                    min-width: 200px;
+                }
+                .profile-avatar {
+                    margin: 0;
+                    width: 60px;
+                    height: 60px;
+                }
+                .nav-container {
+                    width: 100%;
+                }
+                .nav-list {
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    gap: 0.35rem;
+                }
+                .stats-container,
+                .nav-label {
+                    display: none;
+                }
+                .main {
+                    padding: 1.5rem 1.25rem;
+                }
+                .apps-grid {
+                    grid-template-columns: 1fr;
+                }
+                .impact-grid {
+                    grid-template-columns: repeat(3, 1fr);
+                }
+            }
+
+            @media (max-width: 600px) {
+                .impact-grid {
+                    grid-template-columns: 1fr 1fr;
+                }
+                .pub-card {
+                    flex-direction: column;
+                }
+                .pub-thumb {
+                    width: 100%;
+                    height: 120px;
+                }
+                .tl-head {
+                    flex-direction: column;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="page">
+            <!-- ════════════════ SIDEBAR ════════════════ -->
+            <aside class="sidebar">
+                <div
+                    class="profile-section"
+                    style="
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 0.4rem;
+                    "
+                >
+                    <img
+                        src="public/profile.jpg"
+                        alt="Md. Nahin Alam"
+                        class="profile-avatar"
+                        onerror="
+                            this.style.background = 'var(--accent-xl)';
+                            this.src = '';
+                            this.alt = 'NA';
+                        "
+                    />
+                    <div>
+                        <div class="profile-name">Md. Nahin Alam</div>
+                        <div class="profile-role">AI Engineer · Researcher</div>
+                        <div class="profile-affil">
+                            North South University · Dhaka
+                        </div>
+                    </div>
+                    <div class="socials">
+                        <a
+                            class="social-link"
+                            href="mailto:nahin.alam@northsouth.edu"
+                            title="Email"
+                        >
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+                                <path
+                                    d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                                />
+                                <polyline points="22,6 12,13 2,6" />
+                            </svg>
+                            Email
+                        </a>
+                        <a
+                            class="social-link"
+                            href="https://linkedin.com/in/nahinalam"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+                                <path
+                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+                                />
+                                <rect x="2" y="9" width="4" height="12" />
+                                <circle cx="4" cy="4" r="2" />
+                            </svg>
+                            LinkedIn
+                        </a>
+                        <a
+                            class="social-link"
+                            href="https://github.com/alamnahin"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+                                <path
+                                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+                                />
+                            </svg>
+                            GitHub
+                        </a>
+                        <a
+                            class="social-link"
+                            href="https://scholar.google.com/citations?user=05wpi8kAAAAJ&hl=en"
+                            target="_blank"
+                            rel="noopener"
+                        >
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9 12 9s-5.548 2.249-6.758 4.769zM12 10c-1.381 0-2.5 1.119-2.5 2.5s1.119 2.5 2.5 2.5 2.5-1.119 2.5-2.5-1.119-2.5-2.5-2.5z"
+                                />
+                                <path
+                                    d="M12 15c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zm-6.758 4.769L12 24l6.758-4.231C17.548 19.751 14.978 17 12 17s-5.548 2.751-6.758 4.769z"
+                                />
+                            </svg>
+                            Scholar
+                        </a>
+                        <a
+                            class="social-link"
+                            href="public/resume.pdf"
+                            title="Download CV"
+                        >
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+                                <path
+                                    d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                                />
+                                <polyline points="14 2 14 8 20 8" />
+                                <line x1="16" y1="13" x2="8" y2="13" />
+                                <line x1="16" y1="17" x2="8" y2="17" />
+                            </svg>
+                            CV
+                        </a>
+                    </div>
+                </div>
+
+                <div class="stats-container">
+                    <div class="nav-label">At a glance</div>
+                    <div class="stat-row">
+                        <div class="stat-item">
+                            <span>Publications</span
+                            ><span class="stat-badge">6+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Accepted (2026)</span
+                            ><span class="stat-badge">4</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>GPA</span
+                            ><span class="stat-badge">3.81 / 4.0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Data processed</span
+                            ><span class="stat-badge">500 GB+</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Uptime (cloud)</span
+                            ><span class="stat-badge">99.9%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-container">
+                    <div class="nav-label">Navigation</div>
+                    <nav>
+                        <ul class="nav-list" id="nav">
+                            <li>
+                                <button
+                                    class="nav-link active"
+                                    onclick="scrollTo('about')"
+                                >
+                                    About
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                    class="nav-link"
+                                    onclick="scrollTo('skills')"
+                                >
+                                    Skills
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                    class="nav-link"
+                                    onclick="scrollTo('news')"
+                                >
+                                    News
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                    class="nav-link"
+                                    onclick="scrollTo('publications')"
+                                >
+                                    Publications
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                    class="nav-link"
+                                    onclick="scrollTo('live-apps')"
+                                >
+                                    Live Apps
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                    class="nav-link"
+                                    onclick="scrollTo('experience')"
+                                >
+                                    Experience
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                    class="nav-link"
+                                    onclick="scrollTo('teaching')"
+                                >
+                                    Teaching
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                    class="nav-link"
+                                    onclick="scrollTo('education')"
+                                >
+                                    Education
+                                </button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </aside>
+
+            <!-- ════════════════ MAIN ════════════════ -->
+            <main class="main">
+                <!-- ── ABOUT ──────────────────────────────── -->
+                <section class="section" id="about">
+                    <div class="section-header">
+                        <h2 class="section-title">About</h2>
+                    </div>
+                    <div class="about-body">
+                        <p>
+                            Results-driven
+                            <strong>AI Automation Engineer &amp; Graduate Researcher</strong>
+                            specialising in production-ready
+                            <strong>LLM ecosystems</strong>, scalable
+                            <strong>RAG pipelines</strong>, and
+                            <strong>Spatial &amp; Visual Computing</strong>.
+                            Currently pursuing an MSc in Computer Science at
+                            <strong>King Fahd University of Petroleum &amp; Minerals (KFUPM)</strong>
+                            while conducting cutting-edge research at the
+                            <strong>SADIA Lab</strong> on Sign Language Generation and 3D pose estimation.
+                        </p>
+                        <p>
+                            My research spans
+                            <strong>spatial computing</strong>,
+                            <strong>multimodal AI</strong>,
+                            <strong>medical imaging</strong> (radiology benchmarks), and
+                            <strong>vision-language models</strong>. I have co-authored
+                            <strong>6+ peer-reviewed papers &amp; preprints</strong> across top venues including
+                            ICCIT, ICMLAS, SaTC, and IEEE conferences.
+                        </p>
+                        <p>
+                            Additionally, I engineer AI software solutions for government-level projects at
+                            <strong>MySoftHaven (BD) Ltd.</strong> and hold a BSc in CSE from
+                            <strong>North South University</strong> with a
+                            <strong>3.81 GPA (Summa Cum Laude)</strong>.
+                        </p>
+                    </div>
+                    <div class="impact-grid">
+                        <div class="impact-card">
+                            <div class="impact-num">6+</div>
+                            <div class="impact-label">Papers &amp; Preprints</div>
+                        </div>
+                        <div class="impact-card">
+                            <div class="impact-num">60%</div>
+                            <div class="impact-label">Processing time cut</div>
+                        </div>
+                        <div class="impact-card">
+                            <div class="impact-num">99.9%</div>
+                            <div class="impact-label">Cloud uptime</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ── SKILLS ─────────────────────────────── -->
+                <section class="section" id="skills">
+                    <div class="section-header">
+                        <h2 class="section-title">Skills</h2>
+                    </div>
+                    <div class="skills-grid">
+                        <div class="skill-group">
+                            <h3>AI / ML Frameworks</h3>
+                            <div class="pill-row">
+                                <span class="pill pill-primary">PyTorch</span>
+                                <span class="pill pill-primary"
+                                    >TensorFlow</span
+                                >
+                                <span class="pill pill-primary"
+                                    >Hugging Face</span
+                                >
+                                <span class="pill pill-secondary"
+                                    >Scikit-learn</span
+                                >
+                                <span class="pill pill-secondary">XGBoost</span>
+                                <span class="pill pill-secondary"
+                                    >LightGBM</span
+                                >
+                                <span class="pill pill-secondary">FastAI</span>
+                            </div>
+                        </div>
+                        <div class="skill-group">
+                            <h3>Vision-Language & Multimodal</h3>
+                            <div class="pill-row">
+                                <span class="pill pill-primary">CLIP</span>
+                                <span class="pill pill-primary">ViLT</span>
+                                <span class="pill pill-primary">BLIP</span>
+                                <span class="pill pill-primary">BioViL-T</span>
+                                <span class="pill pill-primary"
+                                    >Google Gemini</span
+                                >
+                                <span class="pill pill-secondary"
+                                    >VLM Benchmarking</span
+                                >
+                                <span class="pill pill-secondary"
+                                    >Radiology AI</span
+                                >
+                            </div>
+                        </div>
+                        <div class="skill-group">
+                            <h3>LLMOps & RAG</h3>
+                            <div class="pill-row">
+                                <span class="pill pill-primary"
+                                    >RAG Architecture</span
+                                >
+                                <span class="pill pill-primary">FAISS</span>
+                                <span class="pill pill-primary"
+                                    >Google Genkit</span
+                                >
+                                <span class="pill pill-secondary"
+                                    >Semantic Search</span
+                                >
+                                <span class="pill pill-secondary"
+                                    >Multi-agent Systems</span
+                                >
+                                <span class="pill pill-secondary"
+                                    >n8n Automation</span
+                                >
+                            </div>
+                        </div>
+                        <div class="skill-group">
+                            <h3>Backend & Cloud</h3>
+                            <div class="pill-row">
+                                <span class="pill pill-primary">FastAPI</span>
+                                <span class="pill pill-primary">Node.js</span>
+                                <span class="pill pill-primary">AWS</span>
+                                <span class="pill pill-primary">GCP</span>
+                                <span class="pill pill-primary">Docker</span>
+                                <span class="pill pill-secondary"
+                                    >Kubernetes</span
+                                >
+                                <span class="pill pill-secondary"
+                                    >CI/CD (GitHub Actions)</span
+                                >
+                                <span class="pill pill-secondary"
+                                    >PostgreSQL</span
+                                >
+                                <span class="pill pill-secondary"
+                                    >Firebase</span
+                                >
+                            </div>
+                        </div>
+                        <div class="skill-group">
+                            <h3>Frontend</h3>
+                            <div class="pill-row">
+                                <span class="pill pill-primary"
+                                    >Next.js 15</span
+                                >
+                                <span class="pill pill-primary">React 19</span>
+                                <span class="pill pill-primary"
+                                    >TypeScript</span
+                                >
+                                <span class="pill pill-secondary"
+                                    >Tailwind CSS v4</span
+                                >
+                                <span class="pill pill-secondary"
+                                    >Shadcn UI</span
+                                >
+                                <span class="pill pill-secondary"
+                                    >Prisma ORM</span
+                                >
+                                <span class="pill pill-secondary"
+                                    >TanStack Query</span
+                                >
+                            </div>
+                        </div>
+                        <div class="skill-group">
+                            <h3>Languages</h3>
+                            <div class="pill-row">
+                                <span class="pill pill-primary">Python</span>
+                                <span class="pill pill-primary"
+                                    >TypeScript</span
+                                >
+                                <span class="pill pill-secondary">C/C++</span>
+                                <span class="pill pill-secondary">Java</span>
+                                <span class="pill pill-secondary"
+                                    >SQL / NoSQL</span
+                                >
+                                <span class="pill pill-secondary">MATLAB</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ── NEWS ───────────────────────────────── -->
+                <section class="section" id="news">
+                    <div class="section-header">
+                        <h2 class="section-title">News</h2>
+                    </div>
+                    <div class="news-list">
+                        <div class="news-item">
+                            <div class="news-dot accepted"></div>
+                            <p>
+                                <strong>2025 —</strong> "From Benchmarks to Deployment: A Calibrated, SHAP-Guided, Production-Ready Pipeline for Diabetes Risk Prediction" accepted at <strong>ICCIT 2025</strong> (First Author).
+                                <span class="news-tag tag-accepted">Accepted</span>
+                            </p>
+                        </div>
+                        <div class="news-item">
+                            <div class="news-dot accepted"></div>
+                            <p>
+                                <strong>2026 —</strong> "Validating a Consensus Feature Selection Pipeline for Rheumatoid Arthritis Biomarkers: A Synthetic Data Study" accepted at <strong>ICMLAS 2026</strong> (First Author).
+                                <span class="news-tag tag-accepted">Accepted</span>
+                            </p>
+                        </div>
+                        <div class="news-item">
+                            <div class="news-dot accepted"></div>
+                            <p>
+                                <strong>2026 —</strong> "Engineering Spatiotemporal Forecasts at Scale: Dhaka Weather with State-Of-the Art Machine Learning Models" accepted at <strong>SaTC 2026</strong>.
+                                <span class="news-tag tag-accepted">Accepted</span>
+                            </p>
+                        </div>
+                        <div class="news-item">
+                            <div class="news-dot accepted"></div>
+                            <p>
+                                <strong>2026 —</strong> "Harnessing Vision Language Models for Negation Sensitivity in Visual Question Answering" accepted at <strong>SaTC 2026</strong>.
+                                <span class="news-tag tag-accepted">Accepted</span>
+                            </p>
+                        </div>
+                        <div class="news-item">
+                            <div class="news-dot review"></div>
+                            <p>
+                                <strong>2025 —</strong> "RadMultiBench: A Multimodal Benchmark Revealing the Limits of Frozen Vision-Language Models in Radiology" (First Author).
+                                <span class="news-tag tag-review">Under Review</span>
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ── PUBLICATIONS ───────────────────────── -->
+                <section class="section" id="publications">
+                    <div class="section-header">
+                        <h2 class="section-title">Publications</h2>
+                        <span class="section-count">Verified Papers</span>
+                    </div>
+
+                    <div class="pub-section-label">Accepted & Published</div>
+                    <div class="pub-list">
+                        <div class="pub-card">
+                            <div class="pub-thumb">ICCIT<br />2025</div>
+                            <div class="pub-body">
+                                <div class="pub-title">
+                                    From Benchmarks to Deployment: A Calibrated, SHAP-Guided, Production-Ready Pipeline for Diabetes Risk Prediction
+                                </div>
+                                <div class="pub-authors">
+                                    <strong>Md. Nahin Alam</strong> et al. (First Author)
+                                </div>
+                                <div class="pub-venue">
+                                    ICCIT 2025 — Accepted
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pub-card">
+                            <div class="pub-thumb">ICMLAS<br />2026</div>
+                            <div class="pub-body">
+                                <div class="pub-title">
+                                    Validating a Consensus Feature Selection Pipeline for Rheumatoid Arthritis Biomarkers: A Synthetic Data Study
+                                </div>
+                                <div class="pub-authors">
+                                    <strong>Md. Nahin Alam</strong> et al. (First Author)
+                                </div>
+                                <div class="pub-venue">
+                                    ICMLAS 2026 — Accepted
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pub-card">
+                            <div class="pub-thumb">SaTC<br />2026</div>
+                            <div class="pub-body">
+                                <div class="pub-title">
+                                    Engineering Spatiotemporal Forecasts at Scale: Dhaka Weather with State-Of-the Art Machine Learning Models
+                                </div>
+                                <div class="pub-authors">Co-author</div>
+                                <div class="pub-venue">
+                                    SaTC 2026 — Accepted
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pub-card">
+                            <div class="pub-thumb">SaTC<br />2026</div>
+                            <div class="pub-body">
+                                <div class="pub-title">
+                                    Harnessing Vision Language Models for Negation Sensitivity in Visual Question Answering
+                                </div>
+                                <div class="pub-authors">Co-author</div>
+                                <div class="pub-venue">
+                                    SaTC 2026 — Accepted
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pub-section-label">
+                        Under Review & Preprints
+                    </div>
+                    <div class="pub-list">
+                        <div class="pub-card">
+                            <div class="pub-thumb" style="background: var(--accent-l)">
+                                RAD<br />MULTI<br />BENCH
+                            </div>
+                            <div class="pub-body">
+                                <div class="pub-title">
+                                    RadMultiBench: A Multimodal Benchmark Revealing the Limits of Frozen Vision-Language Models in Radiology
+                                </div>
+                                <div class="pub-authors">
+                                    <strong>Md. Nahin Alam</strong> et al. (First Author)
+                                </div>
+                                <div class="pub-venue">
+                                    Under Review
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ── LIVE APPS ──────────────────────────── -->
+                <section class="section" id="live-apps">
+                    <div class="section-header">
+                        <h2 class="section-title">Live Apps</h2>
+                    </div>
+                    <div class="apps-grid">
+                        <div class="app-card accent-purple">
+                            <div class="app-header">
+                                <div class="app-icon purple">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                                        />
+                                    </svg>
+                                </div>
+                                <span class="live-badge ai"
+                                    >AI · RAG · SaaS</span
+                                >
+                            </div>
+                            <div class="app-name">MySoftHeaven AI Suite 🏢</div>
+                            <div class="app-desc">
+                                Production AI ecosystem with RAG chatbot (FAISS
+                                + Gemini 1.5 Flash), AI lead orchestrator, and
+                                multi-tenant architecture. Reduces manual data
+                                processing by 60%+.
+                            </div>
+                            <div class="app-tags">
+                                <span class="app-tag">FastAPI</span
+                                ><span class="app-tag">FAISS</span
+                                ><span class="app-tag">RAG</span
+                                ><span class="app-tag">Docker</span
+                                ><span class="app-tag">Gemini</span>
+                            </div>
+                            <a
+                                class="app-cta purple"
+                                href="https://github.com/alamnahin/MySoftHeaven"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                View on GitHub
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <path
+                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                    />
+                                </svg>
+                            </a>
+                        </div>
+
+                        <div class="app-card accent-green">
+                            <div class="app-header">
+                                <div class="app-icon green">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                                        />
+                                    </svg>
+                                </div>
+                                <span class="live-badge live"
+                                    ><span class="dot"></span>Live</span
+                                >
+                            </div>
+                            <div class="app-name">
+                                CodeGenius — AI Learning Platform
+                            </div>
+                            <div class="app-desc">
+                                Next.js 15 + Google Genkit (Gemini 2.5 Flash)
+                                personalized coding education with custom
+                                learning paths and real-time code examples.
+                                Firebase serverless backend.
+                            </div>
+                            <div class="app-tags">
+                                <span class="app-tag">Next.js 15</span
+                                ><span class="app-tag">Genkit</span
+                                ><span class="app-tag">Firebase</span
+                                ><span class="app-tag">Shadcn</span>
+                            </div>
+                            <a
+                                class="app-cta green"
+                                href="https://code-genius-flame.vercel.app"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                View Project
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <path
+                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                    />
+                                </svg>
+                            </a>
+                        </div>
+
+                        <div class="app-card accent-sky">
+                            <div class="app-header">
+                                <div class="app-icon sky">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"
+                                        />
+                                    </svg>
+                                </div>
+                                <span class="live-badge live"
+                                    ><span class="dot"></span>Live</span
+                                >
+                            </div>
+                            <div class="app-name">
+                                Duari: AI Study Abroad Companion
+                            </div>
+                            <div class="app-desc">
+                                Next.js 15 platform generating personalised
+                                university recommendations via Gemini 2.5 Flash.
+                                Drag-and-drop tracking, Recharts analytics,
+                                Prisma ORM.
+                            </div>
+                            <div class="app-tags">
+                                <span class="app-tag">Next.js 15</span
+                                ><span class="app-tag">Genkit</span
+                                ><span class="app-tag">Prisma</span
+                                ><span class="app-tag">DnD Kit</span>
+                            </div>
+                            <a
+                                class="app-cta sky"
+                                href="https://duari.vercel.app"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                View Project
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <path
+                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                    />
+                                </svg>
+                            </a>
+                        </div>
+
+                        <div class="app-card accent-sky">
+                            <div class="app-header">
+                                <div class="app-icon sky">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M3 6l3 3m0 0l-3 3m3-3h12m0 0l3-3m-3 3l3 3m-9-9v12"
+                                        />
+                                    </svg>
+                                </div>
+                                <span class="live-badge live"
+                                    ><span class="dot"></span>Live</span
+                                >
+                            </div>
+                            <div class="app-name">
+                                Nexus: AI Knowledge Cartographer
+                            </div>
+                            <div class="app-desc">
+                                Visualises complex topics as dynamic knowledge
+                                graphs using Gemini 2.5 Flash Structured JSON
+                                Output → interactive SVG. React + TypeScript +
+                                Vite.
+                            </div>
+                            <div class="app-tags">
+                                <span class="app-tag">Gemini 2.5</span
+                                ><span class="app-tag">Knowledge Graph</span
+                                ><span class="app-tag">SVG</span>
+                            </div>
+                            <a
+                                class="app-cta sky"
+                                href="https://nexus-one-zeta.vercel.app"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                View Project
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <path
+                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                    />
+                                </svg>
+                            </a>
+                        </div>
+
+                        <div class="app-card accent-green">
+                            <div class="app-header">
+                                <div class="app-icon green">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                                        />
+                                    </svg>
+                                </div>
+                                <span class="live-badge live"
+                                    ><span class="dot"></span>Live</span
+                                >
+                            </div>
+                            <div class="app-name">
+                                RBAC Project Management System
+                            </div>
+                            <div class="app-desc">
+                                PERN Stack enterprise admin platform with
+                                granular RBAC, cryptographically secure invite
+                                workflows, JWT auth, Prisma ORM, soft-delete,
+                                and Redux Toolkit.
+                            </div>
+                            <div class="app-tags">
+                                <span class="app-tag">PERN</span
+                                ><span class="app-tag">Prisma</span
+                                ><span class="app-tag">Redux</span
+                                ><span class="app-tag">MUI</span>
+                            </div>
+                            <a
+                                class="app-cta green"
+                                href="https://task-phi-puce.vercel.app"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                View Project
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <path
+                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                    />
+                                </svg>
+                            </a>
+                        </div>
+
+                        <div class="app-card accent-green">
+                            <div class="app-header">
+                                <div class="app-icon green">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"
+                                        />
+                                    </svg>
+                                </div>
+                                <span class="live-badge live"
+                                    ><span class="dot"></span>Live</span
+                                >
+                            </div>
+                            <div class="app-name">
+                                AntHive: Real-time Language Exchange
+                            </div>
+                            <div class="app-desc">
+                                MERN Stack social app with Stream Chat SDK,
+                                Stream Video conferencing, Zustand state,
+                                TanStack Query caching, JWT + HTTP-only cookie
+                                auth.
+                            </div>
+                            <div class="app-tags">
+                                <span class="app-tag">MERN</span
+                                ><span class="app-tag">Stream SDK</span
+                                ><span class="app-tag">Zustand</span>
+                            </div>
+                            <a
+                                class="app-cta green"
+                                href="https://anthive-co6r.onrender.com"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                View Project
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <path
+                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                    />
+                                </svg>
+                            </a>
+                        </div>
+
+                        <div class="app-card accent-purple">
+                            <div class="app-header">
+                                <div class="app-icon purple">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+                                        />
+                                    </svg>
+                                </div>
+                                <span class="live-badge live"
+                                    ><span class="dot"></span>Live</span
+                                >
+                            </div>
+                            <div class="app-name">
+                                AI-Powered Resume Builder
+                            </div>
+                            <div class="app-desc">
+                                Full-stack SaaS with Gemini AI-generated
+                                summaries, live preview, one-click PDF export,
+                                Strapi Headless CMS, and Clerk Authentication.
+                            </div>
+                            <div class="app-tags">
+                                <span class="app-tag">Vite</span
+                                ><span class="app-tag">Gemini AI</span
+                                ><span class="app-tag">Strapi</span
+                                ><span class="app-tag">Clerk</span>
+                            </div>
+                            <a
+                                class="app-cta purple"
+                                href="https://ai-resume-builder-iota-wine.vercel.app"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                Try Live App
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <path
+                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                    />
+                                </svg>
+                            </a>
+                        </div>
+
+                        <div class="app-card accent-sky">
+                            <div class="app-header">
+                                <div class="app-icon sky">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                                        />
+                                    </svg>
+                                </div>
+                                <span class="live-badge live"
+                                    ><span class="dot"></span>Live</span
+                                >
+                            </div>
+                            <div class="app-name">
+                                CodePrep — Interview Platform
+                            </div>
+                            <div class="app-desc">
+                                Full-stack algorithm practice platform with
+                                secure remote code execution sandbox, Supabase
+                                Auth, Row Level Security, Server Actions, and
+                                PostgreSQL.
+                            </div>
+                            <div class="app-tags">
+                                <span class="app-tag">Next.js 14</span
+                                ><span class="app-tag">Supabase</span
+                                ><span class="app-tag">RLS</span>
+                            </div>
+                            <a
+                                class="app-cta sky"
+                                href="https://code-prep-sooty.vercel.app"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                View Project
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <path
+                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                    />
+                                </svg>
+                            </a>
+                        </div>
+
+                        <div class="app-card accent-sky">
+                            <div class="app-header">
+                                <div class="app-icon sky">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                                        />
+                                    </svg>
+                                </div>
+                                <span class="live-badge live"
+                                    ><span class="dot"></span>Live</span
+                                >
+                            </div>
+                            <div class="app-name">Real-Time Chat Platform</div>
+                            <div class="app-desc">
+                                MERN stack messaging app with Socket.io
+                                real-time communication, JWT authentication,
+                                Zustand global state, and live user presence.
+                            </div>
+                            <div class="app-tags">
+                                <span class="app-tag">MERN</span
+                                ><span class="app-tag">Socket.io</span
+                                ><span class="app-tag">Zustand</span>
+                            </div>
+                            <a
+                                class="app-cta sky"
+                                href="https://my-awesome-chat-app-0g34.onrender.com"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                Launch App
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <path
+                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                    />
+                                </svg>
+                            </a>
+                        </div>
+
+                        <div class="app-card accent-sky">
+                            <div class="app-header">
+                                <div class="app-icon sky">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                                        />
+                                    </svg>
+                                </div>
+                                <span class="live-badge live"
+                                    ><span class="dot"></span>Live</span
+                                >
+                            </div>
+                            <div class="app-name">
+                                Full-Stack E-Commerce App
+                            </div>
+                            <div class="app-desc">
+                                MERN + Ant Design production platform with REST
+                                API, JWT auth, admin inventory dashboard,
+                                Braintree payment processing, and Context API
+                                state.
+                            </div>
+                            <div class="app-tags">
+                                <span class="app-tag">MERN</span
+                                ><span class="app-tag">Ant Design</span
+                                ><span class="app-tag">Braintree</span>
+                            </div>
+                            <a
+                                class="app-cta sky"
+                                href="https://ecommerceapp-eef2.onrender.com"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                Visit Shop
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                >
+                                    <path
+                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                    />
+                                </svg>
+                            </a>
+                        </div>
+
+                        <div class="app-card accent-sky">
+                            <div class="app-header">
+                                <div class="app-icon sky">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                        />
+                                    </svg>
+                                </div>
+                                <span class="live-badge live"
+                                    ><span class="dot"></span>Live</span
+                                >
+                            </div>
+                            <div class="app-name">AI Blog Generator 📝</div>
+                            <div class="app-desc">
+                                Next.js 14 content tool powered by Google Gemini
+                                AI generating structured blog posts, rendered
+                                with react-markdown and GitHub Flavored
+                                Markdown.
+                            </div>
+                            <div class="app-tags">
+                                <span class="app-tag">Next.js 14</span
+                                ><span class="app-tag">Gemini AI</span
+                                ><span class="app-tag">Markdown</span>
+                            </div>
+                            <div
+                                style="
+                                    display: flex;
+                                    gap: 0.5rem;
+                                    margin-top: auto;
+                                "
+                            >
+                                <a
+                                    class="app-cta sky"
+                                    href="https://blog-mysofthaven.vercel.app"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    Live Demo
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                        />
+                                    </svg>
+                                </a>
+                                <a
+                                    class="app-cta"
+                                    style="
+                                        background: var(--surface);
+                                        color: var(--ink-3);
+                                        border: 1px solid var(--border);
+                                    "
+                                    href="https://github.com/alamnahin/blog-generator"
+                                    target="_blank"
+                                    rel="noopener"
+                                    >GitHub</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ── EXPERIENCE ─────────────────────────── -->
+                <section class="section" id="experience">
+                    <div class="section-header">
+                        <h2 class="section-title">Experience</h2>
+                    </div>
+                    <div class="timeline">
+
+                    <div class="tl-item">
+                        <div class="tl-dot"></div>
+                        <div class="tl-head">
+                            <div class="tl-role">
+                                Graduate Research Assistant — Spatial & Visual Computing
+                            </div>
+                            <div class="tl-date">Jan 2026 – Present</div>
+                        </div>
+                        <div class="tl-org">
+                            SADIA Lab, King Fahd University of Petroleum & Minerals (KFUPM), KSA
+                        </div>
+                        <ul class="tl-bullets">
+                            <li>
+                                Pioneering end-to-end <strong>Sign Language Generation (SLG)</strong> pipelines utilizing <strong>Spatial & Visual Computing</strong> architectures, 3D pose estimation, and generative vision models.
+                            </li>
+                            <li>
+                                Engineered scalable deep learning workflows to process and align high-dimensional video datasets, improving synthesis realism and temporal consistency by <strong>35%+</strong>.
+                            </li>
+                            <li>
+                                Co-authoring high-impact research papers targeted at top-tier CV/AI venues (CVPR, ICCV, MICCAI), bridging complex spatial AI models with real-world accessibility solutions.
+                            </li>
+                        </ul>
+                    </div>
+
+                        <div class="tl-item">
+                            <div class="tl-dot"></div>
+                            <div class="tl-head">
+                                <div class="tl-role">
+                                    AI & Automation Engineer
+                                </div>
+                                <div class="tl-date">Jan 2026 – Present</div>
+                            </div>
+                            <div class="tl-org">
+                                MySoftHaven (BD) Ltd., Dhaka
+                            </div>
+                            <ul class="tl-bullets">
+                                <li>
+                                    Develop AI software solutions for
+                                    government-level projects — end-to-end
+                                    <strong>LLM integration</strong>, RAG
+                                    pipelines, and workflow automation.
+                                </li>
+                                <li>
+                                    Architect production AI ecosystems using
+                                    <strong
+                                        >FastAPI, FAISS, Gemini 1.5 Flash, and
+                                        Docker</strong
+                                    >, reducing manual data processing time by
+                                    <strong>60%+</strong>.
+                                </li>
+                                <li>
+                                    Design multi-tenant SaaS architectures with
+                                    automated CRM sync concepts for
+                                    <strong>Salesforce and HubSpot</strong>.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tl-item">
+                            <div class="tl-dot"></div>
+                            <div class="tl-head">
+                                <div class="tl-role">
+                                    AI Research Assistant (Remote)
+                                </div>
+                                <div class="tl-date">Jan 2025 – Present</div>
+                            </div>
+                            <div class="tl-org">
+                                Centre for UntieAI AI Research Lab, University
+                                of Colorado Boulder
+                            </div>
+                            <ul class="tl-bullets">
+                                <li>
+                                    Constructed automated data pipelines to
+                                    process <strong>500 GB+</strong> of complex
+                                    multimodal medical imaging and NLP datasets,
+                                    cutting data preparation time by
+                                    <strong>50%</strong>.
+                                </li>
+                                <li>
+                                    Co-authored
+                                    <strong>3 high-impact papers</strong>
+                                    currently under review at KDD, ACL, and SaTC
+                                    by driving experimental design and scalable
+                                    AI methodologies.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tl-item">
+                            <div class="tl-dot"></div>
+                            <div class="tl-head">
+                                <div class="tl-role">
+                                    Vision-Language Model Researcher
+                                </div>
+                                <div class="tl-date">Jan 2025 – Oct 2025</div>
+                            </div>
+                            <div class="tl-org">
+                                Machine Learning Lab, North South University
+                            </div>
+                            <ul class="tl-bullets">
+                                <li>
+                                    Benchmarked state-of-the-art VLMs (CLIP,
+                                    ViLT, BioViL-T) across
+                                    <strong>10,000+ data points</strong> to
+                                    identify architectural bottlenecks in frozen
+                                    radiology models.
+                                </li>
+                                <li>
+                                    Developed automated evaluation scripts for
+                                    <em>RadMultiBench</em>, accelerating
+                                    multimodal medical model testing by
+                                    <strong>3×</strong>.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tl-item">
+                            <div class="tl-dot"></div>
+                            <div class="tl-head">
+                                <div class="tl-role">
+                                    Cloud Infrastructure & Automation Specialist
+                                </div>
+                                <div class="tl-date">Jun 2024 – Oct 2025</div>
+                            </div>
+                            <div class="tl-org">The Data Island, Dhaka</div>
+                            <ul class="tl-bullets">
+                                <li>
+                                    Architected scalable multi-tenant cloud
+                                    infrastructure on AWS and GCP using Docker
+                                    and Kubernetes, achieving
+                                    <strong>99.9% system availability</strong>.
+                                </li>
+                                <li>
+                                    Accelerated deployment cycles by
+                                    <strong>40%</strong> via automated CI/CD
+                                    pipelines for enterprise AI applications.
+                                </li>
+                                <li>
+                                    Optimised REST APIs and PostgreSQL
+                                    databases, cutting query response time by
+                                    <strong>35%</strong> and enabling
+                                    <strong>5,000+ concurrent requests</strong>.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tl-item">
+                            <div class="tl-dot"></div>
+                            <div class="tl-head">
+                                <div class="tl-role">
+                                    Research Assistant — Cyber Physical Systems
+                                    Lab
+                                </div>
+                                <div class="tl-date">Jun 2023 – Jun 2024</div>
+                            </div>
+                            <div class="tl-org">
+                                North South University, Dhaka
+                            </div>
+                            <div class="tl-text">
+                                Developed intelligent sensor networks and ML
+                                algorithms for predictive maintenance in IoT
+                                systems using TensorFlow and MATLAB. Focused on
+                                embedded systems, real-time data acquisition,
+                                and spatiotemporal forecasting.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ── TEACHING ───────────────────────────── -->
+                <section class="section" id="teaching">
+                    <div class="section-header">
+                        <h2 class="section-title">Teaching</h2>
+                    </div>
+                    <div class="timeline">
+                        <div class="tl-item">
+                            <div class="tl-dot"></div>
+                            <div class="tl-head">
+                                <div class="tl-role">AI/ML Lab Instructor</div>
+                                <div class="tl-date">Feb 2025 – Present</div>
+                            </div>
+                            <div class="tl-org">
+                                Department of CSE, North South University
+                            </div>
+                            <ul class="tl-bullets">
+                                <li>
+                                    Instruct core AI/ML lab sessions for
+                                    <strong>50+ students</strong> per semester,
+                                    delivering hands-on PyTorch and TensorFlow
+                                    demonstrations — average class performance
+                                    up <strong>15%</strong>.
+                                </li>
+                                <li>
+                                    Engineered an automated Python-based grading
+                                    system, reducing evaluation time by
+                                    <strong>80%</strong> while providing
+                                    instant, accurate feedback.
+                                </li>
+                                <li>
+                                    Teaching scope: Data Structures &
+                                    Algorithms, OOP, C++, Java.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="tl-item">
+                            <div class="tl-dot"></div>
+                            <div class="tl-head">
+                                <div class="tl-role">Teaching Assistant</div>
+                                <div class="tl-date">Jun 2024 – Jan 2025</div>
+                            </div>
+                            <div class="tl-org">
+                                Department of CSE, North South University
+                            </div>
+                            <div class="tl-text">
+                                Assisted faculty with undergraduate courses in
+                                Python, Java, and C/C++. Supervised programming
+                                labs and conducted sessions on algorithms and
+                                data structures.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ── EDUCATION ──────────────────────────── -->
+                <section class="section" id="education">
+                    <div class="section-header">
+                        <h2 class="section-title">Education</h2>
+                    </div>
+                    <div class="timeline">
+
+                        <!-- Master's Degree at KFUPM -->
+                        <div class="tl-item">
+                            <div class="tl-dot"></div>
+                            <div class="tl-head">
+                                <div class="tl-role">
+                                    MSc, Computer Science (Spatial & Visual Computing)
+                                </div>
+                                <div class="tl-date">Jan 2026 – Present</div>
+                            </div>
+                            <div class="tl-org">
+                                King Fahd University of Petroleum & Minerals (KFUPM), KSA
+                            </div>
+                            <div class="edu-badges">
+                                <span class="edu-badge">In Progress (1st Semester)</span>
+                                <span class="edu-badge">SADIA Lab Researcher</span>
+                                <span class="edu-badge">Spatial & Visual Computing Focus</span>
+                            </div>
+                        </div>
+
+                        <!-- Bachelor's Degree at NSU -->
+                        <div class="tl-item">
+                            <div class="tl-dot"></div>
+                            <div class="tl-head">
+                                <div class="tl-role">
+                                    BSc, Computer Science & Engineering
+                                </div>
+                                <div class="tl-date">Jan 2020 – Apr 2024</div>
+                            </div>
+                            <div class="tl-org">
+                                North South University, Dhaka
+                            </div>
+                            <div class="edu-badges">
+                                <span class="edu-badge">GPA 3.81 / 4.00</span>
+                                <span class="edu-badge">Summa Cum Laude</span>
+                                <span class="edu-badge">Dean's List</span>
+                                <span class="edu-badge">EQF Level 6</span>
+                                <span class="edu-badge">IELTS 6.5 (C1)</span>
+                            </div>
+                        </div>
+
+                        <div class="tl-item">
+                            <div class="tl-dot"></div>
+                            <div class="tl-head">
+                                <div class="tl-role">
+                                    Higher Secondary Certificate (HSC)
+                                </div>
+                                <div class="tl-date">2017 – 2019</div>
+                            </div>
+                            <div class="tl-org">
+                                Uttara High School & College, Dhaka
+                            </div>
+                            <div class="tl-text">
+                                Result: A Grade / First Class (77%)
+                            </div>
+                        </div>
+
+                        <div class="tl-item">
+                            <div class="tl-dot"></div>
+                            <div class="tl-head">
+                                <div class="tl-role">
+                                    Secondary School Certificate (SSC)
+                                </div>
+                                <div class="tl-date">2015 – 2017</div>
+                            </div>
+                            <div class="tl-org">
+                                Uttara High School & College, Dhaka
+                            </div>
+                            <div class="tl-text">
+                                Result: A* / High First Class (80–100%)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 2.5rem">
+                        <div class="pub-section-label" style="margin-top: 0">
+                            Certifications
+                        </div>
+                        <div class="cert-list">
+                            <div class="cert-item">
+                                FastAI Deep Learning Course
+                            </div>
+                            <div class="cert-item">
+                                Stanford Machine Learning Specialization —
+                                Andrew Ng (Coursera)
+                            </div>
+                            <div class="cert-item">
+                                Andrew Ng Deep Learning Specialization
+                                (Coursera)
+                            </div>
+                            <div class="cert-item">
+                                freeCodeCamp Data Science Certification
+                            </div>
+                            <div class="cert-item">
+                                Google Cloud Platform Fundamentals
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <footer>
+            © 2026 Md. Nahin Alam ·
+            <a href="https://alamnahin.github.io" style="color: var(--accent)"
+                >alamnahin.github.io</a
+            >
+        </footer>
+
+        <script>
+            // Smooth scroll helper
+            function scrollTo(id) {
+                document
+                    .getElementById(id)
+                    .scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+
+            // Active nav on scroll
+            const sections = Array.from(
+                document.querySelectorAll("section[id]"),
+            );
+            const links = Array.from(
+                document.querySelectorAll("#nav .nav-link"),
+            );
+
+            function updateActive() {
+                const scrollY = window.scrollY + 120;
+                let current = sections[0].id;
+                sections.forEach((s) => {
+                    if (s.offsetTop <= scrollY) current = s.id;
+                });
+                links.forEach((l) => {
+                    const target = l
+                        .getAttribute("onclick")
+                        .match(/'([^']+)'/)[1];
+                    l.classList.toggle("active", target === current);
+                });
+            }
+
+            window.addEventListener("scroll", updateActive, { passive: true });
+            updateActive();
+        </script>
+    </body>
+</html>
